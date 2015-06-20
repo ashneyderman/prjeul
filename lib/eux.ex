@@ -10,9 +10,12 @@ defmodule Eux do
       {p, a, []} -> 
         {p, a}
       {_p, _a, e} ->
-        apply(usage_mod,usage_fn,[argv,e])
+        run_usage({usage_mod, usage_fn}, argv, e)
     end
   end
+
+  def run_usage({:function, f}, argv, e), do: f.(argv,e)
+  def run_usage({usage_mod, usage_fn}, argv, e), do: apply(usage_mod,usage_fn,[argv,e])
 
   def usage(_argv, e) do
     IO.puts "Unrecognized params: #{inspect e}"
