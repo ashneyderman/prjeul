@@ -1,21 +1,7 @@
 #!/usr/bin/env elixir
 
 Code.require_file "lib/eux.ex"
-
-defmodule Fib do
-  def stream(max) do
-    Stream.resource(fn -> 0 end,
-      fn(0) -> {[0], {0,1}}
-        ({n0, n1}) -> 
-          if n0+n1 < max do
-            {[n0+n1], {n1,n0+n1}}
-          else
-            {:halt, n1}
-          end
-      end,
-      fn(_) -> [] end)
-  end
-end 
+Code.require_file "lib/fib_stream.ex"
 
 defmodule P2 do
 
@@ -41,4 +27,18 @@ end
 
 max = params |> Keyword.get(:max, 4_000_000)
 
-Fib.stream(max) |> Stream.filter(&(rem(&1,2) == 0)) |> Enum.sum |> P2.print(max)
+FibStream.new 
+  |> Stream.take_while(&(&1 <= max))
+  |> Stream.filter(&(rem(&1,2) == 0)) 
+  |> Enum.sum 
+  |> P2.print(max)
+
+# here is the short version
+# Stream.resource(fn -> 0 end, 
+#                 fn(0)       -> {[1], {0,1}}
+#                   ({n0,n1}) -> {[n1], {n1, n0+n1}}
+#                 end,
+#                 fn(_) -> [] end)   |> 
+#   Stream.take_while(&(&1 <= max))  |> 
+#   Stream.filter(&(rem(&1,2) == 0)) |> 
+#   Enum.sum 
