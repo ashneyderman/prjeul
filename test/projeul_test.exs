@@ -10,13 +10,15 @@ defmodule ProjectEulerTest do
   end
 
   test "Problem 3" do
-    number = 600851475143
+    number = 13195
     start = round(:math.sqrt(number))
-    assert 6857 == Primes.stream(start, true) 
+    assert 29 == Primes.stream(start, true) 
                         |> Stream.filter(&(rem(number, &1) == 0)) 
                         |> Enum.take(1)
                         |> hd
   end
+
+  test "Problem 4", do: assert 9009 == P4.largest_palindrome(2)
 
   test "Problem 15" do
     n = 20
@@ -30,5 +32,6 @@ defmodule ProjectEulerTest do
     p = 1000
     assert 1366 == P16.pow(2,p) |> P16.sdigs(0)
   end
+
 
 end
