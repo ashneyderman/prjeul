@@ -1,8 +1,14 @@
 defmodule ProjectEulerTest do
   use ExUnit.Case
 
+  test "Problem 1" do
+    assert 233168 == Numbers.by_3_and_5_stream
+                        |> Stream.take_while(&(&1 < 1000))
+                        |> Enum.sum
+  end
+
   test "Problem 2" do
-    assert 4613732 == FibStream.new 
+    assert 4613732 == Numbers.fib_stream 
                         |> Stream.take_while(&(&1 <= 4000000))
                         |> Stream.filter(&(rem(&1,2) == 0)) 
                         |> Enum.sum
@@ -32,6 +38,5 @@ defmodule ProjectEulerTest do
     p = 1000
     assert 1366 == P16.pow(2,p) |> P16.sdigs(0)
   end
-
 
 end

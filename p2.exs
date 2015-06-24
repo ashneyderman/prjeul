@@ -1,7 +1,7 @@
 #!/usr/bin/env elixir
 
 Code.require_file "lib/eux.ex"
-Code.require_file "lib/fib_stream.ex"
+Code.require_file "lib/numbers.ex"
 
 usage = fn(_argv,errors) ->
     IO.puts """
@@ -23,7 +23,7 @@ end
 
 max = params |> Keyword.get(:max, 4_000_000)
 
-FibStream.new 
+Numbers.fib_stream
   |> Stream.take_while(&(&1 <= max))
   |> Stream.filter(&(rem(&1,2) == 0)) 
   |> Enum.sum 
